@@ -44,8 +44,8 @@ cd server
 npm install
 
 Create `.env`:
-MONGO_URI=...
-JWT_SECRET=...
+MONGO_URI=mongodb+srv://taskmernapp:LearningChirag009@clustertaskproject.pobcy0z.mongodb.net/taskappdb?retryWrites=true&w=majority
+JWT_SECRET="jwt!@#"
 JWT_EXPIRES=7d
 PORT=5000
 
