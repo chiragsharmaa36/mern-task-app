@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useRef, useEffect, useState } from 'react';
 import api from '../api/axios';
 
 export default function CreateTaskForm({ projectId, onCreated }) {
+  const titleInputRef = useRef(null);
   const [title, setTitle] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
   const [assignedBy, setAssignedBy] = useState('');
@@ -10,6 +11,11 @@ export default function CreateTaskForm({ projectId, onCreated }) {
   const [members, setMembers] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if(titleInputRef.current)
+        titleInputRef.current.focus();
+  },[]);
 
   // fetch project members & all users to pick assigner
   useEffect(() => {
@@ -51,6 +57,7 @@ export default function CreateTaskForm({ projectId, onCreated }) {
       // clear some fields
       setTitle('');
       setDueDate('');
+      titleInputRef.current.focus();
     } catch (err) {
       alert('Create failed: ' + (err.response?.data?.message || err.message));
     } finally {
@@ -62,7 +69,7 @@ export default function CreateTaskForm({ projectId, onCreated }) {
     <form onSubmit={submit}>
       <div className="form-row">
         <label>Title</label>
-        <input className="input" value={title} onChange={e => setTitle(e.target.value)} />
+        <input className="input" placeholder="Enter task title" ref={titleInputRef} value={title} onChange={e => setTitle(e.target.value)} />
       </div>
 
       <div className="form-row">

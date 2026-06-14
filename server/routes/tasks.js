@@ -29,6 +29,8 @@ router.post('/', async (req, res) => {
     const { project, title, assignedTo, assignedBy, dueDate, priority } = req.body;
     if (!project || !title) return res.status(400).json({ message: 'project and title required' });
     const created = await Task.create({ project, title, assignedTo, assignedBy, dueDate, priority });
+    await created.populate('assignedTo', 'name email');
+    await created.populate('assignedBy', 'name email');
     res.status(201).json(created);
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
